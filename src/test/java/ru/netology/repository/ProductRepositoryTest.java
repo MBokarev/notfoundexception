@@ -3,6 +3,7 @@ package ru.netology.repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Book;
+import ru.netology.domain.NotFoundException;
 import ru.netology.domain.Product;
 import ru.netology.domain.Smartphone;
 
@@ -55,5 +56,22 @@ class ProductRepositoryTest {
         Product[] expected = {book1};
         Product[] actual = repository.findAll();
         assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void checkingSuccessfulDeletionExistingElement() {
+        repository.removeById(11);
+
+        Product[] expected = {phone1};
+        Product[] actual = repository.findAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void removingNonExistentElement() {
+
+        assertThrows(NotFoundException.class, () -> {
+            repository.removeById(50);
+        });
     }
 }
